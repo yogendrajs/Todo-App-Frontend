@@ -16,8 +16,9 @@ export default class ResetPass extends React.Component {
     
         this.state = {
             linkExpiry: false, 
-            firstPass: null,
-            secondPass: null,
+            firstPass: '',
+            secondPass: '',
+            passwordReset: false,
         }
     }
 
@@ -25,8 +26,8 @@ export default class ResetPass extends React.Component {
         const value=queryString.parse(this.props.location.search);
         const token=value.key;
         axios.post('http://localhost:4000/resetpass', {token: token})
-        .then(data => {
-            if (data.data === false){
+        .then(config => {
+            if (config.data === false){
                 swal("Link Error", "This Link is expired!", "error");
                 this.setState({
                     linkExpiry: true,
@@ -59,9 +60,14 @@ export default class ResetPass extends React.Component {
         if (firstPass === secondPass){
             axios.post('http://localhost:4000/submitNewPass', {token: token, password: firstPass})
             .then(data => {
-                console.log(data);
                 if (data.data){
-                    swal("Awesome!", "Your Password has been reset successfully!", "success"); 
+                    console.log('checkit');
+                    this.setState({
+                        firstPass: '',
+                        secondPass: '',
+                        passwordReset: true,
+                    });
+                    swal("Awesome!", "Your Password has been reset successfully!", "success")
                 }
                 else {
                     swal("Link Error", "This Link is expired!", "error");
@@ -72,6 +78,11 @@ export default class ResetPass extends React.Component {
             })
             .catch(err => console.log(err));
         }else {
+            this.setState({
+                firstPass: '',
+                secondPass: '',
+            });
+
             swal("Wait!", "Your passwords don't match!", "info");
         }
     }
@@ -80,6 +91,10 @@ export default class ResetPass extends React.Component {
 
     if (this.state.linkExpiry){
         return <Redirect to="/forgotpass" />
+    }
+
+    if (this.state.passwordReset){
+        return <Redirect to="/login" />
     }
 
     return (
@@ -105,6 +120,7 @@ export default class ResetPass extends React.Component {
                 margin="normal"
                 onChange={this.firstPass}
                 variant="outlined"
+                value={this.state.firstPass}
                 fullWidth
                 required
             />
@@ -117,6 +133,7 @@ export default class ResetPass extends React.Component {
                 margin="normal"
                 onChange={this.secondPass}
                 variant="outlined"
+                value={this.state.secondPass}
                 fullWidth
                 required
             />
