@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-export default class RecipeReviewCard extends React.Component {
+export default class Profile extends React.Component {
     constructor(props) {
         super(props)
     
@@ -24,7 +24,9 @@ export default class RecipeReviewCard extends React.Component {
     }
     
     componentDidMount(){
+        // console.log('this is me');
         let jwt = reactLocalStorage.get('jwt');
+        // console.log(jwt);
         if (!jwt){
             this.setState({
                 checkProfile: true,
@@ -32,9 +34,10 @@ export default class RecipeReviewCard extends React.Component {
             return;
         }
         axios
-        .post('/profile', {token: jwt})
+        .post('http://localhost:4000/profile', {token: jwt})
         .then(data => {
             let mainData = data.data;
+            // console.log(mainData);
             this.setState({
                 avatar: mainData.avatar, // have not used yet
                 name: mainData.name,
