@@ -122,11 +122,11 @@ export default class SignUp extends React.Component {
   }
 
   responseGoogle = (response) => {
-    console.log(response.profileObj);
+    // console.log(response.profileObj);
     axios
     .post('http://localhost:4000/googleSignUp', response.profileObj)
     .then(myData => {
-      console.log(myData);
+      // console.log(myData);
         // console.log(data.data.length);
         // console.log(myData.data.constructor === Array);
         if (myData.data.constructor === Array){

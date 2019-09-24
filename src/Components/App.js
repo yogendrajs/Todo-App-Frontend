@@ -29,6 +29,7 @@ export default class App extends Component {
                 login: true,
             })
             reactLocalStorage.remove('jwt', '');
+            return;
         }
 
         // console.log(typeof(this.props.finaljwt));
@@ -45,6 +46,7 @@ export default class App extends Component {
                 }
 
                 let data = result.data;
+                // console.log(result);
                 let ticks = data.filter(issue => {
                     return issue.done === 1 || issue.done === true;
                 })
