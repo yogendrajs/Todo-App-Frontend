@@ -58,6 +58,18 @@ export default class ResetPass extends React.Component {
         const { firstPass, secondPass } = this.state;
 
         if (firstPass === secondPass){
+            const re = new RegExp("(?=.*?[0-9]).{8,}$");
+            const isOk = re.test(firstPass);
+            // console.log(isOk);
+            if (!isOk){
+                swal("Wait!", "Your Password should be at least 8 letter long with numbers", "info");
+                this.setState({
+                    firstPass: '',
+                    secondPass: '',
+                });
+                return;
+            }
+
             axios.post('http://localhost:4000/submitNewPass', {token: token, password: firstPass})
             .then(data => {
                 if (data.data){
