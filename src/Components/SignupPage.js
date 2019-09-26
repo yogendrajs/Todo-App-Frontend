@@ -235,7 +235,7 @@ export default class SignUp extends React.Component {
             </form>
           </div>
           <GoogleLogin
-                clientId="536299356769-6revlp8ocmd1ffr53gm5knf1icsknh37.apps.googleusercontent.com"
+                clientId="<Google_Client_id>"
                 buttonText="Signup With Google"
                 onSuccess={this.responseGoogle}
                 onFailure={this.responseGoogle}
